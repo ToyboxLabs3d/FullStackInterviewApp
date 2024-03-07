@@ -9,6 +9,7 @@ export const UserPresenceSessions = new Mongo.Collection("userpresencesessions")
 
 // list of servers
 export const UserPresenceServers = new Mongo.Collection("userpresenceservers");
+export const users = new Mongo.Collection("users");
 
 UserPresenceServers._ensureIndex({ ping: 1 });
 UserPresenceServers._ensureIndex({ serverId: 1 });
@@ -19,6 +20,7 @@ UserPresenceSessions._ensureIndex({ userId: 1 });
 setInterval(function () {
   let find = { serverId: serverId };
   let modifier = { $set: { ping: new Date() } };
+  // Every 30 seconds mark this server as active
   UserPresenceServers.upsert(find, modifier);
 }, 1000 * 30);
 
@@ -27,9 +29,12 @@ setInterval(function () {
 setInterval(function () {
   let cutoff = new Date();
   cutoff.setMinutes(new Date().getMinutes() - 5);
+  // Synchronusly iterate over each server that hasn't responed for 5 minutes
   UserPresenceServers.find({ ping: { $lt: cutoff } }).forEach(function (server) {
     UserPresenceServers.remove(server._id);
+    // Remove all users from that server
     UserPresenceSessions.remove({ serverId: server.serverId });
+    // Synchronusly iterate over each user connected to the server we are removing and update their online status
     users.find({ "presence.serverId": server.serverId }).forEach(function (user) {
       trackUserStatus(user._id);
     });
@@ -50,8 +55,6 @@ onClientConnected(function () {
       userDisconnected(self.userId, self.connection);
     });
   }
-
-  self.ready();
 });
 
 var userConnected = function (userId, connection) {
@@ -69,7 +72,7 @@ var userDisconnected = function (userId, connection) {
   trackUserStatus(userId, connection);
 };
 
-var trackUserStatus = function (userId, connection) {
+var trackUserStatus = function (userId?: string, connection?: any) {
   let presence = {
     updatedAt: new Date(),
     serverId: serverId
@@ -79,7 +82,7 @@ var trackUserStatus = function (userId, connection) {
     presence.clientAddress = connection.clientAddress;
     presence.httpHeaders = connection.httpHeaders;
   }
-
+  // Returns how many servers the user is connected to currently
   let isOnline = UserPresenceSessions.find({ userId: userId }).count();
 
   if (isOnline) {
@@ -88,5 +91,6 @@ var trackUserStatus = function (userId, connection) {
     presence.status = "offline";
   }
 
+  // Update the user with the online/offline state
   users.update(userId, { $set: { presence: presence } });
 };
