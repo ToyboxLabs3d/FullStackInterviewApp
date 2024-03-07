@@ -5,86 +5,52 @@ Please only spend a 2-3 hours on this. What ever you don't get to just make note
 Feel free to use whatever tools you have at your disposal.
 This is broken down into two parts:
 
-1. Implement a simple UI that lets us view all the printers that the user is allowed to view all the printers the have access to* and filter them based on if they are connected and when they were last online. *A user who is an admin has access to all printers, other users only have access to printers that they have in their printer_id field
-2. This back end has been running two server, and was working fine, then Christmas day hit (our biggest usage day of the year) and our website completely crashed. We think it's related to this code, please offer fixes
+Implement a simple UI that lets us view all the printers that the user is allowed to view all the printers the have access to* and filter them based on if they are connected and when they were last online and search by name of the printer.
+*A user who is an admin has access to all printers, other users only have access to printers that they have in their printer_id field
 
-Note: For part 1, it's expected you only need to look at routes.ts and client.tsx
+Important features we would like to see:
+
+1. If we have a lot of printers the ability to search for them by name and find only the one we want
+2. Ability to see whether each printer is online or not online, and their name
+3. Be able to remove a printer from our list of printers so it no longer shows up in the list
+4. If the user is an admin see all the users connected to a printer, and remove a printer from a user.
+5. Extra: Explain how you would improve this project further, and what limitations this basic structure has.
+
+Please do not spend more than a couple hours on this
+
+To run this project:
+
+Install npm dependencies
+npm install
+
+Start the server:
+npm run start-server
+
+Start the client:
+npm run start
 
 This project uses MongoDb
 
 Common things you may want to do with a mongo collection:
 
 ```
-// Find a single item in the collectoin
+// Find a single item in the collection directly matching the name
 const cursor = UserPresenceServers.findOne({name: "Name to search"})
 
-// Find the full list of items matching the query
-const cursor = UserPresenceServers.find({name: "Name to search"}).fetch()
+// Find the full list of items matching the query directly matching the name
+const cursor = UserPresenceServers.find({name: "Name to search"}).toArray()
 
-// Remove an item from the collections
-const cursor = UserPresenceServers.remove({name: "Name to search"})
+// Remove an item from the collections directly matching the name
+const cursor = UserPresenceServers.remove({_id:"ID TO REMOVE"})
 
-// Update an item from the collections
+// Update an item from the collections directly matching the _id
+// This one sets the field online true true
 const cursor = UserPresenceServers.remove({_id: "id to search"}, {$set: {online: true}})
 ```
 
 Meteor.users contains a mongo instance of both our users and our printers
 The typescript type is:
 
-```
-const type UserType = {
-_id: string,
-// Whether this is a printer or not
-printer: boolean,
-// Unique name for each user and printer
-name:string,
-// Not relevant for this project
-authentication: ...
-// The user that owns this printer
-owner?:string,
-// Whether the user is an admin
-isAdmin?: boolean,
-presence:{
-    updatedAt: Date,
-    // The server the printer is connected to
-    serverId:string,
-    clientAddress: string,
-    httpHeader: Record<string, string>,
-    status: 'online'|'offline'
-  }
-// Printers this user owns
- printer_ids?: string[]
-}
-
-```
-
 In routes.ts we have the basic routes setup to show how it can be done. This can be adjusted if you want different params or data returned.
 
-If you want to run this you can use node (node and node-ts)
-AN example package.json file follows
-
-```
-{
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "A simple backend with Express and in-memory MongoDB server",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "backend",
-    "express",
-    "mongodb"
-  ],
-  "author": "Your Name",
-  "license": "ISC",
-  "dependencies": {
-    "react":"*",
-    "react-dom":"*"
-    "express": "^4.17.1",
-    "mongodb-memory-server-core": "^10.1.0"
-  }
-}
-```
+In the server folder is an example of how we used to keep track of the online/offline status, for this problem it's just there for reference, and not expected that you need to look at it.
