@@ -8,7 +8,7 @@ This is broken down into two parts:
 Implement a simple UI that lets us view all the printers that the user is allowed to view all the printers the have access to* and filter them based on if they are connected and when they were last online and search by name of the printer.
 *A user who is an admin has access to all printers, other users only have access to printers that they have in their printer_id field
 
-Important features we would like to see:
+##Important features we would like to see:
 
 1. If we have a lot of printers the ability to search for them by name and find only the one we want
 2. Ability to see whether each printer is online or not online, and their name

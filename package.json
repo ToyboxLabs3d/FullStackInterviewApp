@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-server": "PORT=4000 npx ts-node src/routes.ts",
+    "start-server": "PORT=4000 npx ts-node server/routes.ts",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

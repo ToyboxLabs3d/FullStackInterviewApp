@@ -23,11 +23,12 @@ export default function App(): JSX.Element {
     try {
       const response = await fetch("http://localhost:4000/printer-information/" + getUserId());
       const data = await response.json();
+      console.log("result", data)
     } catch (error) {
       console.error(error);
     }
   };
-  const printers:any = fetchPrinterInformation();
+  const printers = []
   return (
     <div>
       <h1>Printer Information</h1>
