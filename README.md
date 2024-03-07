@@ -16,7 +16,7 @@ Important features we would like to see:
 4. If the user is an admin see all the users connected to a printer, and remove a printer from a user.
 5. Extra: Explain how you would improve this project further, and what limitations this basic structure has.
 
-Please do not spend more than a couple hours on this
+Please do not spend more than a couple hours on this, do not worry about security or cross browser compatibility. This doesn't need to be super pretty, but it should be functional and relatively easy to use. The idea is to make a quick experience to help prove you can deal making a basic experience.
 
 To run this project:
 
