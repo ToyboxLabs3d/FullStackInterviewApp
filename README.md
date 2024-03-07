@@ -1,6 +1,4 @@
-This is a mini project that was similar to code we had for real in our server years ago. The purpose of this code is to keep track of when a printer is online, and send that information back to the user
-
-Test project:
+**Test project:**
 Please only spend a 2-3 hours on this. What ever you don't get to just make notes and be prepared to talk about it
 Feel free to use whatever tools you have at your disposal.
 This is broken down into two parts:
@@ -8,7 +6,7 @@ This is broken down into two parts:
 Implement a simple UI that lets us view all the printers that the user is allowed to view all the printers the have access to* and filter them based on if they are connected and when they were last online and search by name of the printer.
 *A user who is an admin has access to all printers, other users only have access to printers that they have in their printer_id field
 
-##Important features we would like to see:
+**Important features we would like to see:**
 
 1. If we have a lot of printers the ability to search for them by name and find only the one we want
 2. Ability to see whether each printer is online or not online, and their name
@@ -18,20 +16,28 @@ Implement a simple UI that lets us view all the printers that the user is allowe
 
 Please do not spend more than a couple hours on this, do not worry about security or cross browser compatibility. This doesn't need to be super pretty, but it should be functional and relatively easy to use. The idea is to make a quick experience to help prove you can deal making a basic experience.
 
-To run this project:
+**_To run this project:_**
 
 Install npm dependencies
-npm install
+`npm install`
 
 Start the server:
+
+```
 npm run start-server
+```
 
 Start the client:
+
+```
 npm run start
+```
 
 This project uses MongoDb
 
 Common things you may want to do with a mongo collection:
+
+In server/routes.ts we have the basic routes setup to show how it can be done. This can be adjusted if you want different params or data returned.
 
 ```
 // Find a single item in the collection directly matching the name
@@ -48,9 +54,4 @@ const cursor = UserPresenceServers.remove({_id:"ID TO REMOVE"})
 const cursor = UserPresenceServers.remove({_id: "id to search"}, {$set: {online: true}})
 ```
 
-Meteor.users contains a mongo instance of both our users and our printers
-The typescript type is:
-
-In routes.ts we have the basic routes setup to show how it can be done. This can be adjusted if you want different params or data returned.
-
-In the server folder is an example of how we used to keep track of the online/offline status, for this problem it's just there for reference, and not expected that you need to look at it.
+In the server folder is also an example of how we used to keep track of the online/offline status, for this problem it's just there for reference, and not expected that you need to look at it.
