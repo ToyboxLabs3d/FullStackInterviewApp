@@ -31,12 +31,12 @@ Start the client:
 ```
 npm run start
 ```
+In server/routes.ts we have the basic routes setup to show how it can be done. This can be adjusted if you want different params or data returned.
 
 This project uses MongoDb
 
 Common things you may want to do with a mongo collection:
 
-In server/routes.ts we have the basic routes setup to show how it can be done. This can be adjusted if you want different params or data returned.
 
 ```
 // Find a single item in the collection directly matching the name
